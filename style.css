@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,700;1,400&family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+    --bg-main: #0a0a0a;
+    --bg-card: #141414;
+    --gold-muted: #d4af37;
+    --text-white: #ffffff;
+    --text-gray: #b0b0b0;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-white);
+    font-family: 'Montserrat', sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, .navbar-brand, .modal-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: var(--text-white);
+    letter-spacing: 0.5px;
+}
+
+.font-tech {
+    font-family: 'Space Mono', monospace;
+    letter-spacing: -1px;
+}
+
+.text-gold { color: var(--gold-muted) !important; }
+.text-white { color: var(--text-white) !important; }
+
+.navbar {
+    background-color: rgba(10, 10, 10, 0.95);
+    border-bottom: 1px solid #333;
+    padding: 1.2rem 0;
+    backdrop-filter: blur(10px);
+}
+
+.btn-logout {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-gray);
+    border: 1px solid #333;
+    background: transparent;
+    padding: 8px 16px;
+    margin-left: 20px;
+    text-transform: uppercase;
+    transition: 0.3s;
+    text-decoration: none;
+    cursor: pointer;
+}
+.btn-logout:hover {
+    border-color: var(--gold-muted);
+    color: var(--gold-muted);
+}
+
+.card {
+    background-color: var(--bg-card);
+    border: 1px solid #2a2a2a;
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    border-color: var(--gold-muted);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.card-img-top {
+    height: 240px;
+    object-fit: cover;
+    filter: brightness(0.85) contrast(1.1);
+    transition: 0.3s;
+}
+
+.card:hover .card-img-top { filter: brightness(1); }
+
+.card-title {
+    color: var(--text-white);
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.price-tag {
+    font-family: 'Space Mono', monospace;
+    color: var(--gold-muted);
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.btn-stash {
+    font-family: 'Space Mono', monospace;
+    background: transparent;
+    border: 1px solid var(--gold-muted);
+    color: var(--gold-muted);
+    width: 100%;
+    padding: 12px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+.btn-stash:hover {
+    background: var(--gold-muted);
+    color: #000;
+    font-weight: 700;
+}
+
+.form-control {
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    color: #fff !important;
+    font-family: 'Space Mono', monospace;
+    padding: 12px;
+}
+
+.form-control:focus {
+    background-color: #222;
+    border-color: var(--gold-muted);
+    color: #fff !important;
+    box-shadow: none;
+}
+
+.form-control::placeholder {
+    color: #555;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+.btn-filter {
+    color: #666;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    background: transparent;
+    border: none;
+    text-transform: uppercase;
+    padding: 5px 15px;
+    transition: 0.3s;
+}
+.btn-filter:hover, .btn-filter.active {
+    color: var(--gold-muted);
+}
+
+.modal-content {
+    background-color: #141414;
+    border: 1px solid var(--gold-muted);
+}
+.modal-header { border-bottom: 1px solid #333; }
+.btn-close { filter: invert(1); }
+
+.stash-item {
+    background: #1a1a1a;
+    padding: 15px;
+    border-bottom: 1px solid #333;
+}

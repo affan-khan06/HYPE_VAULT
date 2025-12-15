@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hype Vault | Secure</title>
+    <script>
+        if (localStorage.getItem('hypeVaultSession') !== 'active') {
+            window.location.href = 'login.html';
+        }
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="navbar fixed-top border-bottom border-secondary">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">HYPE <span class="text-gold">VAULT</span></a>
+            <a href="index.html" class="btn-logout border-0 text-white">
+                &larr; RETURN TO VAULT
+            </a>
+        </div>
+    </nav>
+
+    <div class="container" style="margin-top: 140px;">
+        <div class="row">
+            
+            <div class="col-lg-7 mb-5">
+                <h3 class="mb-4">Acquisition List</h3>
+                <div class="card p-0 border-0" style="background: transparent;">
+                    <div id="stash-list">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="card p-4 shadow-lg">
+                    <h3 class="mb-4">Transfer Details</h3>
+                    
+                    <div class="d-flex justify-content-between mb-4 border-bottom border-secondary pb-3">
+                        <span class="text-gray font-tech">TOTAL VALUE</span>
+                        <span class="h4 text-gold font-tech" id="total-amount">₹0</span>
+                    </div>
+
+                    <form onsubmit="event.preventDefault(); processPayment();">
+                        <div class="mb-3">
+                            <label class="font-tech text-gray small mb-1">CARDHOLDER</label>
+                            <input type="text" class="form-control" placeholder="NAME ON CARD" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="font-tech text-gray small mb-1">NUMBER</label>
+                            <input type="text" class="form-control" placeholder="0000 0000 0000 0000" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label class="font-tech text-gray small mb-1">EXPIRY</label>
+                                <input type="text" class="form-control" placeholder="MM/YY" required>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label class="font-tech text-gray small mb-1">CVV</label>
+                                <input type="password" class="form-control" placeholder="***" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-stash mt-2">
+                            INITIATE TRANSFER
+                        </button>
+                    </form>
+                    
+                    <div class="text-center mt-3">
+                        <small class="text-gray font-tech" style="font-size: 0.7rem;">ENCRYPTED TRANSACTION // 256-BIT SSL</small>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
