@@ -13,6 +13,7 @@ body {
     color: var(--text-white);
     font-family: 'Montserrat', sans-serif;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
 }
 
 h1, h2, h3, h4, h5, .navbar-brand, .modal-title {
@@ -30,8 +31,13 @@ h1, h2, h3, h4, h5, .navbar-brand, .modal-title {
 .text-gold { color: var(--gold-muted) !important; }
 .text-white { color: var(--text-white) !important; }
 
+/* Override Bootstrap text-warning to match our Gold */
+.text-warning { color: var(--gold-muted) !important; }
+.btn-outline-warning { border-color: var(--gold-muted); color: var(--gold-muted); }
+.btn-outline-warning:hover { background-color: var(--gold-muted); color: #000; }
+
 .navbar {
-    background-color: rgba(10, 10, 10, 0.95);
+    background-color: rgba(10, 10, 10, 0.95) !important;
     border-bottom: 1px solid #333;
     padding: 1.2rem 0;
     backdrop-filter: blur(10px);
@@ -50,6 +56,7 @@ h1, h2, h3, h4, h5, .navbar-brand, .modal-title {
     text-decoration: none;
     cursor: pointer;
 }
+
 .btn-logout:hover {
     border-color: var(--gold-muted);
     color: var(--gold-muted);
@@ -101,6 +108,7 @@ h1, h2, h3, h4, h5, .navbar-brand, .modal-title {
     letter-spacing: 1px;
     transition: 0.3s;
 }
+
 .btn-stash:hover {
     background: var(--gold-muted);
     color: #000;
@@ -138,14 +146,18 @@ h1, h2, h3, h4, h5, .navbar-brand, .modal-title {
     padding: 5px 15px;
     transition: 0.3s;
 }
+
 .btn-filter:hover, .btn-filter.active {
     color: var(--gold-muted);
+    background: transparent;
+    border-color: transparent;
 }
 
 .modal-content {
     background-color: #141414;
     border: 1px solid var(--gold-muted);
 }
+
 .modal-header { border-bottom: 1px solid #333; }
 .btn-close { filter: invert(1); }
 
@@ -153,4 +165,20 @@ h1, h2, h3, h4, h5, .navbar-brand, .modal-title {
     background: #1a1a1a;
     padding: 15px;
     border-bottom: 1px solid #333;
+}
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #000;
+}
+::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--gold-muted);
+}
+canvas {
+    max-width: 100%;
 }
