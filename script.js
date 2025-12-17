@@ -17,7 +17,7 @@ const sneakers = [
 ];
 
 let myStash = JSON.parse(localStorage.getItem('hypeVaultStash')) || [];
-
+let activeModalChart = null; 
 function saveStash() {
     localStorage.setItem('hypeVaultStash', JSON.stringify(myStash));
     updateNav();
@@ -27,6 +27,77 @@ function updateNav() {
     const badge = document.getElementById('stash-count');
     if(badge) badge.innerText = myStash.length;
 }
+function initDashboardChart() {
+    const ctx = document.getElementById('sneakerChart');
+    if(!ctx) return;
+
+    const counts = sneakers.reduce((acc, s) => {
+        acc[s.category] = (acc[s.category] || 0) + 1;
+        return acc;
+    }, {});
+    Chart.defaults.font.family = "'Space Mono', monospace";
+    Chart.defaults.color = "#666";
+
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: Object.keys(counts).map(c => c.toUpperCase()),
+            datasets: [{
+                data: Object.values(counts),
+                backgroundColor: ['#d4af37', '#1a1a1a', '#404040', '#757575'], // Gold & Grays
+                borderColor: '#0a0a0a',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'right', labels: { color: '#b0b0b0', boxWidth: 15 } }
+            }
+        }
+    });
+}
+
+function renderPriceChart(price) {
+    const ctx = document.getElementById('priceChart');
+    if(!ctx) return;
+
+    if(activeModalChart) activeModalChart.destroy();
+
+    const dataPoints = Array.from({length: 6}, () => price * (0.9 + Math.random() * 0.2));
+
+    activeModalChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN'],
+            datasets: [{
+                label: 'Resale Value',
+                data: dataPoints,
+                borderColor: '#d4af37', 
+                backgroundColor: 'rgba(212, 175, 55, 0.1)',
+                borderWidth: 2,
+                pointBackgroundColor: '#0a0a0a',
+                pointBorderColor: '#d4af37',
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { display: false },
+                x: { 
+                    ticks: { color: '#666', font: { size: 10 } }, 
+                    grid: { display: false } 
+                }
+            },
+            plugins: { legend: { display: false } }
+        }
+    });
+}
+// --- NEW CHART LOGIC ENDS HERE ---
 
 function initShop(data = sneakers) {
     const container = document.getElementById('sneaker-container');
@@ -38,10 +109,10 @@ function initShop(data = sneakers) {
                 <div style="cursor: pointer; overflow: hidden;" onclick="openModal(${shoe.id})">
                     <img src="${shoe.img}" class="card-img-top" alt="${shoe.name}" onerror="this.src='https://placehold.co/600x400/222/c5a059?text=Image+Not+Found'">
                 </div>
-                <div class="card-body d-flex flex-column justify-content-between">
+                <div class="card-body d-flex flex-column justify-content-between p-3">
                     <div>
-                        <h5 class="card-title">${shoe.name}</h5>
-                        <small class="text-gray font-tech text-uppercase" style="font-size: 0.7rem;">${shoe.category}</small>
+                        <h6 class="card-title text-truncate">${shoe.name}</h6>
+                        <small class="font-tech text-gray text-uppercase" style="font-size: 0.7rem;">${shoe.category}</small>
                     </div>
                     <div class="mt-3">
                         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -66,7 +137,9 @@ function addToStash(id) {
 
 function filterShoes(cat) {
     document.querySelectorAll('.btn-filter').forEach(b => b.classList.remove('active'));
-    event.target.classList.add('active');
+        const active = Array.from(document.querySelectorAll('.btn-filter')).find(b => b.innerText.toLowerCase() === cat || (cat === 'all' && b.innerText === 'ALL'));
+    if(active) active.classList.add('active');
+
     initShop(cat === 'all' ? sneakers : sneakers.filter(s => s.category === cat));
 }
 
@@ -75,6 +148,8 @@ function openModal(id) {
     document.getElementById('modalTitle').innerText = shoe.name;
     document.getElementById('modalPrice').innerText = "₹" + shoe.price.toLocaleString('en-IN');
     document.getElementById('modalImg').src = shoe.img;
+    renderPriceChart(shoe.price);
+
     document.getElementById('modalStashBtn').onclick = () => addToStash(shoe.id);
     new bootstrap.Modal(document.getElementById('productModal')).show();
 }
@@ -88,7 +163,7 @@ function initPayment() {
     let total = 0;
 
     if(myStash.length === 0) {
-        container.innerHTML = "<div class='text-gray font-tech p-3'>VAULT EMPTY</div>";
+        container.innerHTML = "<div class='text-gray font-tech p-3 text-center'>VAULT EMPTY</div>";
     } else {
         myStash.forEach((shoe, idx) => {
             total += shoe.price;
@@ -101,12 +176,13 @@ function initPayment() {
                             <small class="font-tech text-gold">₹${shoe.price.toLocaleString('en-IN')}</small>
                         </div>
                     </div>
-                    <button class="btn btn-sm text-danger" style="text-decoration: underline;" onclick="removeFromStash(${idx})">REMOVE</button>
+                    <button class="btn btn-sm text-danger font-tech" style="font-size: 0.8rem; text-decoration: underline;" onclick="removeFromStash(${idx})">REMOVE</button>
                 </div>
             `;
         });
     }
-    totalEl.innerText = "₹" + total.toLocaleString('en-IN');
+    
+    if(totalEl) totalEl.innerText = "₹" + total.toLocaleString('en-IN');
 }
 
 function removeFromStash(idx) {
@@ -127,4 +203,5 @@ document.addEventListener('DOMContentLoaded', () => {
     updateNav();
     initShop();
     initPayment();
+    initDashboardChart(); 
 });
